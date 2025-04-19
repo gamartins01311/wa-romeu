@@ -16,6 +16,11 @@ RUN npm install
 # Copiar todo o código-fonte
 COPY . .
 
+# Verificar se o arquivo socketServer.js foi copiado corretamente
+RUN ls -l 
+RUN ls -l /app
+RUN ls -l /app/src
+
 # Expor a porta do aplicativo
 EXPOSE 3000
 

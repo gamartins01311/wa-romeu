@@ -16,6 +16,12 @@ RUN npm install
 # Copiar todo o código-fonte
 COPY . .
 
+# Verificar se o arquivo socketServer.js foi copiado corretamente
+RUN ls -l 
+RUN ls -l /app
+RUN ls -l /app/src
+
 EXPOSE 4521
 
+# Comando para rodar o servidor
 CMD ["node", "src/socketServer.js"]
