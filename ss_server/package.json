@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "scripts": {
+    "start-socketServer": "node src/socketServer.js",
+    "start-waServer": "node src/waServerConnection.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.16",
+    "baileys": "^6.7.16",
+    "fs": "0.0.1-security",
+    "node-fetch": "^3.3.2",
+    "pino": "^7.0.5",
+    "qrcode-terminal": "^0.12.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
+  }
+}
