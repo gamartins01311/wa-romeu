@@ -10,7 +10,7 @@ import {
   import io from 'socket.io-client';
   
   const logger = Pino({ level: 'error' });
-  const socketServer = io('ss-server.socketserver.svc.cluster.local:4521');
+  const socketServer = io('http://ss-server.socketserver.svc.cluster.local:4521');
   const clientName = '[CLIENT] Gabriel WhatsApp';
   
   // Lista de comandos aceitos

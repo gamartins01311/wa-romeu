@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: wa-server
-          image: localhost:5000/ws-server:1.0.3
+          image: localhost:5000/ws-server:1.0.4
           ports:
             - containerPort: 3000 
