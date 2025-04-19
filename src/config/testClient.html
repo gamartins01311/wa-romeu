@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.IO WebSocket Test</title>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>🧪 Teste de WebSocket com Socket.IO</h1>
+  <button onclick="sendPing()">Enviar ping</button>
+
+  <script>
+    const socket = io('http://localhost:4521');
+
+    socket.on('connect', () => {
+      console.log('✅ Conectado ao servidor');
+    });
+
+    socket.on('pong', () => {
+      console.log('🏓 Recebeu pong do servidor!');
+      alert('🏓 Pong recebido!');
+    });
+
+    function sendPing() {
+      console.log('📡 Enviando ping...');
+      socket.emit('ping');
+    }
+  </script>
+</body>
+</html>
