@@ -1,8 +1,7 @@
+# Definir a imagem base
 FROM node:20-alpine
 
-# Instalar o Git no contêiner
-RUN apk add --no-cache git
-
+# Definir o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
 # Copiar os arquivos package.json e package-lock.json
@@ -11,7 +10,10 @@ COPY package*.json ./
 # Instalar as dependências
 RUN npm install
 
-# Copiar o restante do conteúdo
-COPY . .
+# Copiar todo o código-fonte
+COPY src/ ./src/
+
+# Expor a porta do aplicativo
+EXPOSE 3000
 
 CMD ["node", "src/waServerConnection.js"]
