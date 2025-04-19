@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: ss-server
-          image: localhost:5000/ss-server:1.0.0
+          image: localhost:5000/ss-server:1.0.3
           ports:
             - containerPort: 4521
