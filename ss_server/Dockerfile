@@ -7,7 +7,4 @@ COPY ./ss_server/package*.json ./
 
 RUN npm install
 
-# Copiar o restante dos arquivos do ss_server
-COPY ./ss_server/ .
-
 CMD ["node", "src/socketServer.js"]

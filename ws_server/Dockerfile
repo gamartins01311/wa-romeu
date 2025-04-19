@@ -7,7 +7,4 @@ COPY ./ws_server/package*.json ./
 
 RUN npm install
 
-# Copiar o restante do código
-COPY ws_server/ .
-
 CMD ["node", "src/waServerConnection.js"]
