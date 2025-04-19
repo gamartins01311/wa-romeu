@@ -1,0 +1,99 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_TAG = '1.0.0'
+        IMAGE_REGISTRY = 'localhost:5000'
+        SS_IMAGE_NAME = 'ss-server'
+        WS_IMAGE_NAME = 'ws-server'
+    }
+
+    stages {
+        stage('Verificar NPM') {
+            steps {
+                sh 'npm -version'
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                script {
+                    if (fileExists('wa-romeu')) {
+                        deleteDir()
+                    }
+                }
+                withCredentials([usernamePassword(credentialsId: 'github-token-credentials-id', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
+                    sh '''
+                        git clone https://$GITHUB_USER:$GITHUB_TOKEN@github.com/wa-romeu.git
+                        ls -lah wa-romeu
+                    '''
+                }
+            }
+        }
+
+        stage('npm install') {
+            steps {
+                dir('wa-romeu') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Build SS image') {
+            steps {
+                dir('wa-romeu/ss-server') {
+                    sh """
+                        docker build -t $IMAGE_REGISTRY/$SS_IMAGE_NAME:$IMAGE_TAG .
+                        docker push $IMAGE_REGISTRY/$SS_IMAGE_NAME:$IMAGE_TAG
+                    """
+                }
+            }
+        }
+
+        stage('Build WS image') {
+            steps {
+                dir('wa-romeu/ws-server') {
+                    sh """
+                        docker build -t $IMAGE_REGISTRY/$WA_IMAGE_NAME:$IMAGE_TAG .
+                        docker push $IMAGE_REGISTRY/$WA_IMAGE_NAME:$IMAGE_TAG
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to K3s SS SERVER') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig-k3', variable: 'KUBECONFIG_FILE')]) {
+                    dir('wa-romeu/ss_server/manifests') {
+                        sh '''
+                            mkdir -p ~/.kube
+                            cp $KUBECONFIG_FILE ~/.kube/config
+                            kubectl apply -f .
+                        '''
+                    }
+                }
+            }
+        }
+                stage('Deploy to K3s WS SERVER') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig-k3', variable: 'KUBECONFIG_FILE')]) {
+                    dir('wa-romeu/ws_server/manifests') {
+                        sh '''
+                            mkdir -p ~/.kube
+                            cp $KUBECONFIG_FILE ~/.kube/config
+                            kubectl apply -f .
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                script {
+                    deleteDir()
+                }
+            }
+        }
+    }
+}

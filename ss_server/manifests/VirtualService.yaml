@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: proxy-resource-vs
+  namespace: socketserver
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - proxy-resource-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /ss/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ss-server
+            port:
+              number: 4521
+    - match:
+        - uri:
+            prefix: /ws/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: ws-server
+            port:
+              number: 3000

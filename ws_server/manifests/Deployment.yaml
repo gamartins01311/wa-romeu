@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ws-server
+  namespace: socketserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ws-server
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: ws-server
+    spec:
+      containers:
+        - name: wa-server
+          image: localhost:5000/ws-server:1.0.0
+          ports:
+            - containerPort: 3000 

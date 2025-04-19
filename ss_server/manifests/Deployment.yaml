@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ss-server
+  namespace: socketserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ss-server
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: ss-server
+    spec:
+      containers:
+        - name: ss-server
+          image: localhost:5000/ss-server:1.0.0
+          ports:
+            - containerPort: 4521

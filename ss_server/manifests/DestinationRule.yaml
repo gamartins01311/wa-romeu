@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: ss-server
+  namespace: socketserver
+spec:
+  host: ss-server
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
