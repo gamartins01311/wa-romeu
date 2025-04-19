@@ -1,6 +1,9 @@
 # Definir a imagem base
 FROM node:20-alpine
 
+# Instalar git (necessário para dependências npm que usam repositórios git)
+RUN apk add --no-cache git
+
 # Definir o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
