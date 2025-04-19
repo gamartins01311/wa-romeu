@@ -11,9 +11,10 @@ COPY package*.json ./
 RUN npm install
 
 # Copiar todo o código-fonte
-COPY src/ ./src/
+COPY . .
 
 # Expor a porta do aplicativo
 EXPOSE 3000
 
+# Definir o comando para iniciar a aplicação
 CMD ["node", "src/waServerConnection.js"]
